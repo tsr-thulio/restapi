@@ -1,0 +1,13 @@
+.hot-icon {
+	margin-right: 10px;
+	color: EF5350 !important;
+	vertical-align: bottom;
+}
+
+.tab-actions {
+	float: right;
+}
+
+.hidden-input {
+	display: none;
+}

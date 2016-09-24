@@ -1,14 +1,124 @@
 <html ng-app="restApi">
 	<head>
+		<title>Rest Api - Challange</title>
+	
 		<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular.js"></script>
 		<script src="./frontend/app/app.js"></script>
-		
+
 		<link rel="stylesheet" href="https://gitcdn.link/repo/angular/bower-material/master/angular-material.css">
 	    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular-animate.js"></script>
 	    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular-aria.js"></script>
 	    <script src="https://gitcdn.link/repo/angular/bower-material/master/angular-material.js"></script>
+	    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+	    <link rel="stylesheet" href="./frontend/assets/app.css">
 	</head>
 	<body ng-controller="appController">
-		<h2>Hello World!</h2>
+		<div>
+			<md-content>
+				<md-toolbar class="md-hue-2">
+		      		<div class="md-toolbar-tools">
+				        <h2>
+				         	<span><md-icon class="hot-icon">whatshot</md-icon>Rest API WebApp</span>
+				        </h2>
+				        <span flex></span>
+				        <md-menu>
+				        	<md-button class="md-icon-button" ng-click="$mdOpenMenu($event)">
+				            	<md-icon ng-if="userLogged">person</md-icon>
+				            	<md-icon ng-if="!userLogged">person_outline</md-icon>
+				        	</md-button>
+				        	<md-menu-content width="3">
+					            <md-menu-item>
+					            	<md-button ng-if="userLogged">
+						                <md-icon>exit_to_app</md-icon>
+						                Logout
+					            	</md-button>
+					            	<md-button ng-if="!userLogged">
+						                <md-icon>open_in_browser</md-icon>
+						                Login
+					            	</md-button>
+					            </md-menu-item>
+				        	</md-menu-content>
+				        </md-menu>
+		      		</div>
+    			</md-toolbar>
+			</md-content>
+		</div>
+		<div ng-cloak>
+			<md-content class="md-padding" >
+				<md-card>
+				    <md-tabs md-dynamic-height md-border-bottom>
+					    <md-tab label="upload">
+					        <md-content class="md-padding">
+					        	<h1 class="md-display-1">Rest API - Upload</h1>
+					        	<p>Selecione seu arquivo e realize o upload</p>
+					        	<md-button onclick="document.getElementById('uploadHidden').click()" class="md-raised md-warn"><md-icon>file_upload</md-icon>Escolha um arquivo...</md-button>
+					        	<div class="hidden-input">
+						        	<input id="uploadHidden" type="file">
+					        	</div>
+					        </md-content>
+					        <div class="tab-actions">
+					          	<md-button class="md-raised md-primary">Upload</md-button>
+						    </div>
+					    </md-tab>
+				      	<md-tab label="listagem">
+				  			<md-content class="md-padding">
+					        	<h1 class="md-display-1">Rest API - List</h1>
+					        	<p>Listagem de arquivos que foram carregados.</p>
+			        		</md-content>
+			        		<div class="tab-actions">
+						    	<md-button class="md-raised md-warn">Limpar</md-button>
+					          	<md-button class="md-raised md-primary">Buscar</md-button>
+						    </div>
+				      	</md-tab>
+				    </md-tabs>
+				</md-card>
+			</md-content>
+		</div>
+
+		<div>
+			<md-content class="md-padding" layout-xs="column" layout="row">
+			    <div flex-xs flex-gt-xs="100" layout="column">
+			      	<md-card>
+				        <md-card-title>
+				          	<md-card-title-text>
+					            <span class="md-headline">Rest API Upload</span>
+					            <span class="md-subhead">Selecione aqui o arquivo que deseja carregar para ser feito o upload</span>
+				          	</md-card-title-text>
+				        </md-card-title>
+				        <md-card-content>
+				            <md-button onclick="document.getElementById('uploadHidden1').click()" class="md-raised md-warn"><md-icon>file_upload</md-icon>Escolha um arquivo...</md-button>
+				        	<div class="hidden-input">
+					        	<input id="uploadHidden1" type="file">
+				        	</div>
+				        </md-card-content>
+				        <md-card-actions layout="row" layout-align="end center">
+				          	<md-button class="md-raised md-primary">Upload</md-button>
+				        </md-card-actions>
+			      	</md-card>
+		      	</div>
+		  	</md-content>
+		</div>
+
+		<div>
+			<md-content class="md-padding" layout-xs="column" layout="row">
+			    <div flex-xs flex-gt-xs="100" layout="column">
+			      	<md-card>
+				        <md-card-title>
+				          	<md-card-title-text>
+					            <span class="md-headline">Rest API List</span>
+					            <span class="md-subhead">Listagem dos arquivos os quais foram feitos upload</span>
+				          	</md-card-title-text>
+				        </md-card-title>
+				        <md-card-content>
+				        dasdasdasda
+				        </md-card-content>
+				        <md-card-actions layout="row" layout-align="end center">
+				          	<md-button class="md-raised md-warn">Limpar</md-button>
+				          	<md-button class="md-raised md-primary">Buscar</md-button>
+				        </md-card-actions>
+			      	</md-card>
+		      	</div>
+		  	</md-content>
+		</div>
 	</body>
 </html>
