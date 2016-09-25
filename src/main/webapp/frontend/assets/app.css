@@ -1,4 +1,4 @@
-.hot-icon {
+#hot-icon {
 	margin-right: 10px;
 	color: EF5350 !important;
 	vertical-align: bottom;
@@ -11,3 +11,16 @@
 .hidden-input {
 	display: none;
 }
+
+.processing {
+	color: #F9A825	
+}
+
+.done {
+	color: #42af5f	
+}
+
+.failed {
+	color: #F4511E	
+}
+

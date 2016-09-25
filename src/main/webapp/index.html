@@ -17,8 +17,10 @@
 			<md-content>
 				<md-toolbar class="md-hue-2">
 		      		<div class="md-toolbar-tools">
-				        <h2>
-				         	<span><md-icon class="hot-icon">whatshot</md-icon>Rest API WebApp</span>
+				        <h2 class="hot-icon">
+				         	<span>
+				         		<md-icon id="hot-icon">whatshot</md-icon> Rest API WebApp
+				         	</span>
 				        </h2>
 				        <span flex></span>
 				        <md-menu>
@@ -57,68 +59,35 @@
 					        	</div>
 					        </md-content>
 					        <div class="tab-actions">
-					          	<md-button class="md-raised md-primary">Upload</md-button>
+					          	<md-button ng-click="uploadFile()" class="md-raised md-primary">Upload</md-button>
 						    </div>
 					    </md-tab>
 				      	<md-tab label="listagem">
 				  			<md-content class="md-padding">
 					        	<h1 class="md-display-1">Rest API - List</h1>
-					        	<p>Listagem de arquivos que foram carregados.</p>
+					        	<p>{{ subHeaderText }}</p>
+					        	<md-list flex>
+					        		<md-list-item class="md-3-line" ng-repeat="upload in uploadList" ng-click="null">
+						        		<div class="md-list-item-text" layout="column">
+							            	<h3><b>File Name:</b> {{ upload.fileName }}</h3>
+							            	<h4><b>Status:</b> <span ng-class="upload.uploadStatus.toLowerCase()">{{ upload.uploadStatus }}</span></h4>
+							            	<p><b>Time to Upload:</b> {{ upload.uploadTime }}s</p>
+							          	</div>
+							          	<div class="md-list-item-text" layout="column">
+							            	<p><b>Number of Chunks:</b> {{ upload.chunkFileNumber }}</p>
+							            	<p><b>Link:</b> <a href="{{ upload.downloadLink }}">{{ upload.downloadLink }}</a></p>
+							          	</div>
+						          	</md-list-item>
+					        	</md-list>
 			        		</md-content>
 			        		<div class="tab-actions">
-						    	<md-button class="md-raised md-warn">Limpar</md-button>
-					          	<md-button class="md-raised md-primary">Buscar</md-button>
+						    	<md-button class="md-raised md-warn" ng-click="cleanList()">Limpar</md-button>
+					          	<md-button class="md-raised md-primary" ng-click="listUploads()">Buscar</md-button>
 						    </div>
 				      	</md-tab>
 				    </md-tabs>
 				</md-card>
 			</md-content>
-		</div>
-
-		<div>
-			<md-content class="md-padding" layout-xs="column" layout="row">
-			    <div flex-xs flex-gt-xs="100" layout="column">
-			      	<md-card>
-				        <md-card-title>
-				          	<md-card-title-text>
-					            <span class="md-headline">Rest API Upload</span>
-					            <span class="md-subhead">Selecione aqui o arquivo que deseja carregar para ser feito o upload</span>
-				          	</md-card-title-text>
-				        </md-card-title>
-				        <md-card-content>
-				            <md-button onclick="document.getElementById('uploadHidden1').click()" class="md-raised md-warn"><md-icon>file_upload</md-icon>Escolha um arquivo...</md-button>
-				        	<div class="hidden-input">
-					        	<input id="uploadHidden1" type="file">
-				        	</div>
-				        </md-card-content>
-				        <md-card-actions layout="row" layout-align="end center">
-				          	<md-button class="md-raised md-primary">Upload</md-button>
-				        </md-card-actions>
-			      	</md-card>
-		      	</div>
-		  	</md-content>
-		</div>
-
-		<div>
-			<md-content class="md-padding" layout-xs="column" layout="row">
-			    <div flex-xs flex-gt-xs="100" layout="column">
-			      	<md-card>
-				        <md-card-title>
-				          	<md-card-title-text>
-					            <span class="md-headline">Rest API List</span>
-					            <span class="md-subhead">Listagem dos arquivos os quais foram feitos upload</span>
-				          	</md-card-title-text>
-				        </md-card-title>
-				        <md-card-content>
-				        dasdasdasda
-				        </md-card-content>
-				        <md-card-actions layout="row" layout-align="end center">
-				          	<md-button class="md-raised md-warn">Limpar</md-button>
-				          	<md-button class="md-raised md-primary">Buscar</md-button>
-				        </md-card-actions>
-			      	</md-card>
-		      	</div>
-		  	</md-content>
 		</div>
 	</body>
 </html>
