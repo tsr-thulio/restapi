@@ -66,6 +66,7 @@
 				  			<md-content class="md-padding">
 					        	<h1 class="md-display-1">Rest API - List</h1>
 					        	<p>{{ subHeaderText }}</p>
+					        	<md-progress-circular ng-show="showLoading" class="list-loading" md-mode="indeterminate"></md-progress-circular>
 					        	<md-list flex>
 					        		<md-list-item class="md-3-line" ng-repeat="upload in uploadList" ng-click="null">
 						        		<div class="md-list-item-text" layout="column">
@@ -82,7 +83,7 @@
 			        		</md-content>
 			        		<div class="tab-actions">
 						    	<md-button class="md-raised md-warn" ng-click="cleanList()">Limpar</md-button>
-					          	<md-button class="md-raised md-primary" ng-click="listUploads()">Buscar</md-button>
+					          	<md-button class="md-raised md-primary" id="search-btn" ng-click="listUploads()">Buscar</md-button>
 						    </div>
 				      	</md-tab>
 				    </md-tabs>

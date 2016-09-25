@@ -1,8 +1,9 @@
 var module = angular.module('restApi', ['ngMaterial']);
-module.controller('appController', function($scope, $templateCache, $http) {
+module.controller('appController', function($scope, $templateCache, $http, $mdDialog) {
 	$scope.subHeaderText = "Listagem dos arquivos que foram carregados"
 	$scope.listUrl = 'rest/service/listUploads';
 	$scope.listUploads = function() {
+		$scope.showListLoading = true;
 		$http({
 			method: 'GET',
 			url: window.location.href + $scope.listUrl
@@ -13,8 +14,10 @@ module.controller('appController', function($scope, $templateCache, $http) {
 			} else if(response.data.length == 0) {
 				$scope.subHeaderText = "Não foram encontrados registros, tente carregar um arquivo na aba Upload!";
 			}
+			$scope.showListLoading = false;
 		}, function(response) {
-			alert('fail')
+			$scope.subHeaderText = "Algo deu errado, por favor tente novamente!";
+			$scope.showListLoading = false;
 		})}
 
 	$scope.uploadFile = function() {
@@ -25,4 +28,5 @@ module.controller('appController', function($scope, $templateCache, $http) {
 		$scope.uploadList = undefined;
 		$scope.subHeaderText = "Listagem dos arquivos que foram carregados";
 	}
+	
 });
