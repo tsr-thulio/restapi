@@ -6,6 +6,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 
+import com.restapi.repository.entity.FileEntity;
 import com.restapi.repository.entity.UploadEntity;
 
 public class UploadRepository {
@@ -23,6 +24,12 @@ public class UploadRepository {
 	public void Save(UploadEntity uploadEntity){
 		this.entityManager.getTransaction().begin();
 		this.entityManager.persist(uploadEntity);
+		this.entityManager.getTransaction().commit();
+	}
+	
+	public void Teste(FileEntity fileEntity){
+		this.entityManager.getTransaction().begin();
+		this.entityManager.persist(fileEntity);
 		this.entityManager.getTransaction().commit();
 	}
  

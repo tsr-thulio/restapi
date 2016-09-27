@@ -51,11 +51,18 @@
 				    <md-tabs md-dynamic-height md-border-bottom>
 					    <md-tab label="upload">
 					        <md-content class="md-padding">
+<!-- 					        <h2>File Upload Example</h2>   -->
+<!-- <form action="rest/service/upload" method="post" enctype="multipart/form-data">   -->
+<!--        <p>   -->
+<!--         Select a file : <input type="file" name="file" size="45" />   -->
+<!--        </p>   -->
+<!--        <input type="submit" value="Upload File" />   -->
+<!-- </form>   -->
 					        	<h1 class="md-display-1">Rest API - Upload</h1>
 					        	<p>Selecione seu arquivo e realize o upload</p>
 					        	<md-button onclick="document.getElementById('uploadHidden').click()" class="md-raised md-warn"><md-icon>file_upload</md-icon>Escolha um arquivo...</md-button>
 					        	<div class="hidden-input">
-						        	<input id="uploadHidden" type="file">
+						        	<input id="uploadHidden" onchange="angular.element(this).scope().handleFileSelect(this)" type="file">
 					        	</div>
 					        </md-content>
 					        <div class="tab-actions">
