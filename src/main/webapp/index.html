@@ -25,20 +25,20 @@
 				        <span flex></span>
 				        <md-menu>
 				        	<md-button class="md-icon-button" ng-click="$mdOpenMenu($event)">
-				            	<md-icon ng-if="userLogged">person</md-icon>
-				            	<md-icon ng-if="!userLogged">person_outline</md-icon>
+				            	<md-icon ng-if="userName">person</md-icon>
+				            	<md-icon ng-if="!userName">person_outline</md-icon>
 				        	</md-button>
-				        	<md-menu-content width="3">
-					            <md-menu-item>
-					            	<md-button ng-if="userLogged">
-						                <md-icon>exit_to_app</md-icon>
-						                Logout
-					            	</md-button>
-					            	<md-button ng-if="!userLogged">
-						                <md-icon>open_in_browser</md-icon>
-						                Login
-					            	</md-button>
-					            </md-menu-item>
+				        	<md-menu-content width="5" class="user-menu">
+				        		<md-list-item>
+				        			<md-input-container class="user-input" flex>
+					            		<label>User Name</label>
+        								<input type="text" ng-change="getValue" ng-model="userName">
+       								</md-input-container>
+				            	</md-list-item>
+				            	<md-button class="clear-user" ng-click="userName = ''" ng-disabled="!userName">
+					                <md-icon>exit_to_app</md-icon>
+					                Clear
+				            	</md-button>
 				        	</md-menu-content>
 				        </md-menu>
 		      		</div>
@@ -51,22 +51,16 @@
 				    <md-tabs md-dynamic-height md-border-bottom>
 					    <md-tab label="upload">
 					        <md-content class="md-padding">
-<!-- 					        <h2>File Upload Example</h2>   -->
-<!-- <form action="rest/service/upload" method="post" enctype="multipart/form-data">   -->
-<!--        <p>   -->
-<!--         Select a file : <input type="file" name="file" size="45" />   -->
-<!--        </p>   -->
-<!--        <input type="submit" value="Upload File" />   -->
-<!-- </form>   -->
 					        	<h1 class="md-display-1">Rest API - Upload</h1>
 					        	<p>Selecione seu arquivo e realize o upload</p>
 					        	<md-button onclick="document.getElementById('uploadHidden').click()" class="md-raised md-warn"><md-icon>file_upload</md-icon>Escolha um arquivo...</md-button>
+					        	<span ng-if="fileLoadedName"><b>Nome do arquivo: </b>{{ fileLoadedName }}</span>
 					        	<div class="hidden-input">
 						        	<input id="uploadHidden" onchange="angular.element(this).scope().handleFileSelect(this)" type="file">
 					        	</div>
 					        </md-content>
 					        <div class="tab-actions">
-					          	<md-button ng-click="uploadFile()" class="md-raised md-primary">Upload</md-button>
+					          	<md-button id="uploadbtn" ng-click="uploadFile()" class="md-raised md-primary">Upload</md-button>
 						    </div>
 					    </md-tab>
 				      	<md-tab label="listagem">
@@ -77,12 +71,13 @@
 					        	<md-list flex>
 					        		<md-list-item class="md-3-line" ng-repeat="upload in uploadList" ng-click="null">
 						        		<div class="md-list-item-text" layout="column">
-							            	<h3><b>File Name:</b> {{ upload.fileName }}</h3>
-							            	<h4><b>Status:</b> <span ng-class="upload.uploadStatus.toLowerCase()">{{ upload.uploadStatus }}</span></h4>
-							            	<p><b>Time to Upload:</b> {{ upload.uploadTime }}s</p>
+							            	<h3><b>Nome do Arquivo:</b> {{ upload.fileName }}</h3>
+							            	<h3><b>Identificador de Usuario:</b> {{ upload.userId }}</h3>
+							            	<p><b>Status:</b> <span ng-class="upload.uploadStatus.toLowerCase()">{{ upload.uploadStatus }}</span></p>
 							          	</div>
 							          	<div class="md-list-item-text" layout="column">
-							            	<p><b>Number of Chunks:</b> {{ upload.chunkFileNumber }}</p>
+							            	<p><b>Tempo de Upload:</b> {{ upload.uploadTime }}ms</p>
+							            	<p><b>Numero de Arquivos:</b> {{ upload.chunkFileNumber }}</p>
 							            	<p><b>Link:</b> <a href="{{ upload.downloadLink }}">{{ upload.downloadLink }}</a></p>
 							          	</div>
 						          	</md-list-item>

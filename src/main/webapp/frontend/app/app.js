@@ -1,9 +1,12 @@
 var module = angular.module('restApi', ['ngMaterial']);
 module.controller('appController', function($scope, $templateCache, $http, $mdDialog, $rootScope) {
+	var scope = $scope;
 	var root = $rootScope;
 	$scope.subHeaderText = "Listagem dos arquivos que foram carregados"
 	$scope.listUrl = 'rest/service/listUploads';
 	$scope.uploadUrl = 'rest/service/upload';
+	$scope.uploadReportUrl = 'rest/service/uploadReport';
+	
 	$scope.listUploads = function() {
 		$scope.showListLoading = true;
 		$http({
@@ -14,31 +17,71 @@ module.controller('appController', function($scope, $templateCache, $http, $mdDi
 				$scope.uploadList = response.data;
 				$scope.subHeaderText = "Foram encontrados " + response.data.length + " arquivos carregados:";
 			} else if(response.data.length == 0) {
-				$scope.subHeaderText = "Não foram encontrados registros, tente carregar um arquivo na aba Upload!";
+				$scope.subHeaderText = "Nenhum registro encontrado, tente carregar um arquivo na aba Upload!";
 			}
 			$scope.showListLoading = false;
 		}, function(response) {
 			$scope.subHeaderText = "Algo deu errado, por favor tente novamente!";
 			$scope.showListLoading = false;
 		})}
+	
+	$scope.getValue = function(text) {
+		scope.userName = text;
+	}
 
 	$scope.uploadFile = function() {
-		var filesUploaded = 0;
-		$scope.recursiveUpload(0);
-		alert('comecou')
-		//TODO:set entity to PROCESSING 
+		if($scope.userName && $scope.fileLoaded) {
+			var filesUploaded = 0;
+			$scope.recursiveUpload(0);
+			$scope.uploadStart = new Date().getTime();
+			$scope.uploadReport('PROCESSING');
+		} else {
+			var popup = $mdDialog.alert()
+		      .title("Oops...")
+		      .content("Verifique se o identificador de usuario foi setado no canto superior direito da tela e seu arquivo upado")
+		      .ok("Ok");
+
+		    $mdDialog.show(popup);
+		}
+	}
+	
+	$scope.uploadReport = function(status, successFunction) {
+		var upload = {
+			chunkFileNumber: $scope.fileLoaded.length,
+			fileName: $scope.fileLoadedName,
+			downloadLink: "algo/"+$scope.fileLoadedName,
+			uploadStatus: status,
+			uploadTime: $scope.timeToUpload,
+			userId: $scope.userName
+		}
+		$http.post($scope.uploadReportUrl, upload)
+		.success(function(data) {
+			if(successFunction) {
+				successFunction();
+			}
+		});
 	}
 	
 	root.$watch('finishedUpload', function(newValue, oldValue) {
-		if(newValue && newValue.status == 'sucess') {
-			alert('acabou');
-			//TODO: set entity to DONE or FAILED with time
-		} else
+		if(newValue && newValue.status) {
+			$scope.uploadEnd = new Date().getTime();
+			$scope.timeToUpload = $scope.uploadEnd - $scope.uploadStart;
+			$scope.uploadReport(newValue.status, $scope.clearInfo);
+		}
 	});
+	
+	$scope.clearInfo = function() {
+		$scope.uploadStart = undefined;
+		$scope.uploadEnd = undefined;
+		$scope.timeToUpload = undefined;
+		$scope.fileLoaded = undefined;
+		$scope.fileLoadedName = undefined;
+	}
 	
 	$scope.recursiveUpload = function(index) {
 		var fd = new FormData();
 		fd.append('fileName', $scope.fileLoadedName);
+		fd.append('userId', $scope.userName);
 		fd.append('file', $scope.fileLoaded[index]);
 		fd.append('data', 'string');
 		$http.post($scope.uploadUrl, fd, {
@@ -76,6 +119,8 @@ module.controller('appController', function($scope, $templateCache, $http, $mdDi
 	       $scope.fileLoaded.push(f.slice(offset,offset+chunkSize))
 	       chunk++;
 	   }
+	   
+	   $scope.$apply();
     }
 	
 });

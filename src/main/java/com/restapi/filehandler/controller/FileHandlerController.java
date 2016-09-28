@@ -3,8 +3,6 @@ package com.restapi.filehandler.controller;
 import java.util.ArrayList;
 import java.util.List;
 
-import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
@@ -15,74 +13,79 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import javax.ws.rs.core.Response.StatusType;
 
 import org.apache.commons.io.IOUtils;
 import org.glassfish.jersey.media.multipart.FormDataContentDisposition;
 import org.glassfish.jersey.media.multipart.FormDataParam;
 
-import com.restapi.filehandler.http.Status;
 import com.restapi.filehandler.http.Upload;
+import com.restapi.repository.FileRepository;
 import com.restapi.repository.UploadRepository;
 import com.restapi.repository.entity.FileEntity;
 import com.restapi.repository.entity.UploadEntity;
 
 @Path("/service")
 public class FileHandlerController {
-	
-	private final  UploadRepository repository = new UploadRepository();
-	
-	@POST  
-    @Path("/upload")  
-    @Consumes(MediaType.MULTIPART_FORM_DATA)  
-    public Response uploadFile(  
+
+	private final  UploadRepository uploadRepository = new UploadRepository();
+	private final  FileRepository fileRepository = new FileRepository();
+
+	@POST
+    @Path("/upload")
+    @Consumes(MediaType.MULTIPART_FORM_DATA)
+    public Response uploadFile(
             @FormDataParam("fileName") String fileName,
+            @FormDataParam("userId") InputStream userId,
             @FormDataParam("file") InputStream uploadedInputStream,
-            @FormDataParam("file") FormDataContentDisposition fileDetail) {  
-    	
+            @FormDataParam("file") FormDataContentDisposition fileDetail) {
+
+		if(userId == null) {
+			return Response.status(401).build();
+		}
+		
 		FileEntity file = new FileEntity();
 		try {
         	file.setFile(IOUtils.toByteArray(uploadedInputStream));
         	file.setFileName(fileName);
-        	repository.Teste(file);
+        	fileRepository.Save(file);
         	return Response.status(200).build();
         } catch (IOException e) {
         	e.printStackTrace();
         	return Response.status(500).build();
-    	}  
-    }  
-	
-//	@POST	
-//	@Consumes("application/json; charset=UTF-8")
-//	@Produces("application/json; charset=UTF-8")
-//	@Path("/upload")
-//	public String Cadastrar(Upload upload){
-// 
-//		UploadEntity entity = new UploadEntity();
-// 
-//		try {
-//			entity.setChunkFileNumber(upload.getChunkFileNumber());
-//			entity.setDownloadLink(upload.getDownloadLink());
-//			entity.setFileName(upload.getFileName());
-//			entity.setUploadStatus(upload.getUploadStatus());
-//			entity.setUploadTime(upload.getUploadTime());
-//			repository.Save(entity);
-//			return "Upload successfuly!";
-// 
-//		} catch (Exception e) {
-// 
-//			return "Error uploading file " + e.getMessage();
-//		}
-// 
-//	}
-//
+    	}
+    }
+
+	@POST
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@Path("/uploadReport")
+	public Response Cadastrar(Upload upload) {
+
+		UploadEntity entity = new UploadEntity();
+
+		try {
+			entity.setChunkFileNumber(upload.getChunkFileNumber());
+			entity.setDownloadLink(upload.getDownloadLink());
+			entity.setFileName(upload.getFileName());
+			entity.setUploadStatus(upload.getUploadStatus());
+			entity.setUploadTime(upload.getUploadTime());
+			entity.setUserId(upload.getUserId());
+			uploadRepository.SaveOrUpdate(entity, upload.getUploadStatus());
+			return Response.status(200).build();
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			return Response.status(500).build();
+		}
+	}
+
 	@GET
 	@Produces("application/json; charset=UTF-8")
 	@Path("/listUploads")
-	public List<Upload> listUploads(){
+	public List<Upload> listUploads() {
  
 		List<Upload> uploads =  new ArrayList<Upload>();
-		List<UploadEntity> uploadEntityList = repository.GetUploads();
+		List<UploadEntity> uploadEntityList = uploadRepository.GetUploads();
 
 		Upload upload;
 		for (UploadEntity uploadEntity : uploadEntityList) {
@@ -93,7 +96,7 @@ public class FileHandlerController {
 			upload.setUploadStatus(uploadEntity.getUploadStatus());
 			upload.setUploadTime(uploadEntity.getUploadTime());
 			uploads.add(upload);
-		} 
+		}
 		return uploads;
 	}
 }

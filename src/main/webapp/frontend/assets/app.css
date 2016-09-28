@@ -32,3 +32,14 @@ md-list-item.md-3-line::before, md-list-item.md-3-line > .md-no-style::before {
 	min-height: 0px
 }
 
+.user-menu {
+	height: 100px !important; 
+}
+
+.clear-user {
+	margin-top: 2px;
+}
+
+.user-input {
+	margin-top: 50px
+}

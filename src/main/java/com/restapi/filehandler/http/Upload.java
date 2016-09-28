@@ -10,6 +10,7 @@ public class Upload {
 	Integer uploadTime;
 	String downloadLink;
 	Status uploadStatus;
+	String userId;
 	
 	public String getFileName() {
 		return fileName;
@@ -40,6 +41,12 @@ public class Upload {
 	}
 	public void setUploadStatus(Status uploadStatus) {
 		this.uploadStatus = uploadStatus;
+	}
+	public String getUserId() {
+		return userId;
+	}
+	public void setUserId(String userId) {
+		this.userId = userId;
 	}
 	
 }

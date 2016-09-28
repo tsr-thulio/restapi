@@ -33,6 +33,9 @@ public class UploadEntity {
 	@Column(name="uploadStatus")
 	Status uploadStatus;
 	
+	@Column(name="userId")
+	String userId;
+	
 	public Long getId() {
 		return id;
 	}
@@ -69,4 +72,11 @@ public class UploadEntity {
 	public void setUploadStatus(Status uploadStatus) {
 		this.uploadStatus = uploadStatus;
 	}
+	public String getUserId() {
+		return userId;
+	}
+	public void setUserId(String userId) {
+		this.userId = userId;
+	}
+	
 }
