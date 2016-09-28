@@ -24,7 +24,7 @@
 				        </h2>
 				        <span flex></span>
 				        <md-menu>
-				        	<md-button class="md-icon-button" ng-click="$mdOpenMenu($event)">
+				        	<md-button aria-label="userInfo" class="md-icon-button" ng-click="$mdOpenMenu($event)">
 				            	<md-icon ng-if="userName">person</md-icon>
 				            	<md-icon ng-if="!userName">person_outline</md-icon>
 				        	</md-button>
@@ -32,7 +32,7 @@
 				        		<md-list-item>
 				        			<md-input-container class="user-input" flex>
 					            		<label>User Name</label>
-        								<input type="text" ng-change="getValue" ng-model="userName">
+        								<input type="text" ng-change="getValue(userName)" ng-model="userName">
        								</md-input-container>
 				            	</md-list-item>
 				            	<md-button class="clear-user" ng-click="userName = ''" ng-disabled="!userName">
@@ -55,6 +55,7 @@
 					        	<p>Selecione seu arquivo e realize o upload</p>
 					        	<md-button onclick="document.getElementById('uploadHidden').click()" class="md-raised md-warn"><md-icon>file_upload</md-icon>Escolha um arquivo...</md-button>
 					        	<span ng-if="fileLoadedName"><b>Nome do arquivo: </b>{{ fileLoadedName }}</span>
+					        	<md-progress-linear ng-show="showUploadLoading" md-mode="indeterminate"></md-progress-linear>
 					        	<div class="hidden-input">
 						        	<input id="uploadHidden" onchange="angular.element(this).scope().handleFileSelect(this)" type="file">
 					        	</div>
@@ -67,9 +68,9 @@
 				  			<md-content class="md-padding">
 					        	<h1 class="md-display-1">Rest API - List</h1>
 					        	<p>{{ subHeaderText }}</p>
-					        	<md-progress-circular ng-show="showLoading" class="list-loading" md-mode="indeterminate"></md-progress-circular>
+					        	<md-progress-circular ng-show="showListLoading" class="list-loading" md-mode="indeterminate"></md-progress-circular>
 					        	<md-list flex>
-					        		<md-list-item class="md-3-line" ng-repeat="upload in uploadList" ng-click="null">
+					        		<md-list-item class="md-3-line" ng-repeat="upload in uploadList" ng-click="downloadFile(upload.downloadLink)">
 						        		<div class="md-list-item-text" layout="column">
 							            	<h3><b>Nome do Arquivo:</b> {{ upload.fileName }}</h3>
 							            	<h3><b>Identificador de Usuario:</b> {{ upload.userId }}</h3>
@@ -85,7 +86,7 @@
 			        		</md-content>
 			        		<div class="tab-actions">
 						    	<md-button class="md-raised md-warn" ng-click="cleanList()">Limpar</md-button>
-					          	<md-button class="md-raised md-primary" id="search-btn" ng-click="listUploads()">Buscar</md-button>
+					          	<md-button class="md-raised md-primary" id="search-btn" ng-click="showListLoading = true; listUploads()">Buscar</md-button>
 						    </div>
 				      	</md-tab>
 				    </md-tabs>

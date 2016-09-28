@@ -21,6 +21,9 @@ public class FileEntity {
 	@Column(name="filename")
 	String fileName;
 	
+	@Column(name="filePartName")
+	String filePartName;
+	
 	@Column(name="file", columnDefinition = "LONGBLOB")
 	byte[] file;
 
@@ -46,6 +49,14 @@ public class FileEntity {
 
 	public void setFile(byte[] file) {
 		this.file = file;
+	}
+
+	public String getFilePartName() {
+		return filePartName;
+	}
+
+	public void setFilePartName(String filePartName) {
+		this.filePartName = filePartName;
 	}
 	
 }

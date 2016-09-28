@@ -6,9 +6,9 @@ module.controller('appController', function($scope, $templateCache, $http, $mdDi
 	$scope.listUrl = 'rest/service/listUploads';
 	$scope.uploadUrl = 'rest/service/upload';
 	$scope.uploadReportUrl = 'rest/service/uploadReport';
+	$scope.getFilePrefix = 'rest/service/getfile/';
 	
 	$scope.listUploads = function() {
-		$scope.showListLoading = true;
 		$http({
 			method: 'GET',
 			url: window.location.href + $scope.listUrl
@@ -23,7 +23,8 @@ module.controller('appController', function($scope, $templateCache, $http, $mdDi
 		}, function(response) {
 			$scope.subHeaderText = "Algo deu errado, por favor tente novamente!";
 			$scope.showListLoading = false;
-		})}
+		})
+	}
 	
 	$scope.getValue = function(text) {
 		scope.userName = text;
@@ -31,6 +32,7 @@ module.controller('appController', function($scope, $templateCache, $http, $mdDi
 
 	$scope.uploadFile = function() {
 		if($scope.userName && $scope.fileLoaded) {
+			$scope.showUploadLoading = true
 			var filesUploaded = 0;
 			$scope.recursiveUpload(0);
 			$scope.uploadStart = new Date().getTime();
@@ -45,11 +47,15 @@ module.controller('appController', function($scope, $templateCache, $http, $mdDi
 		}
 	}
 	
+	$scope.downloadFile = function(link) {
+		window.location.href = link;
+	}
+	
 	$scope.uploadReport = function(status, successFunction) {
 		var upload = {
 			chunkFileNumber: $scope.fileLoaded.length,
 			fileName: $scope.fileLoadedName,
-			downloadLink: "algo/"+$scope.fileLoadedName,
+			downloadLink: $scope.getFilePrefix + $scope.fileLoadedName,
 			uploadStatus: status,
 			uploadTime: $scope.timeToUpload,
 			userId: $scope.userName
@@ -76,11 +82,14 @@ module.controller('appController', function($scope, $templateCache, $http, $mdDi
 		$scope.timeToUpload = undefined;
 		$scope.fileLoaded = undefined;
 		$scope.fileLoadedName = undefined;
+		$scope.showUploadLoading = false;
+		document.getElementById('uploadHidden').value = '';
 	}
 	
 	$scope.recursiveUpload = function(index) {
 		var fd = new FormData();
 		fd.append('fileName', $scope.fileLoadedName);
+		fd.append('filePartName', $scope.fileLoadedName + "part" + index);
 		fd.append('userId', $scope.userName);
 		fd.append('file', $scope.fileLoaded[index]);
 		fd.append('data', 'string');
@@ -114,7 +123,7 @@ module.controller('appController', function($scope, $templateCache, $http, $mdDi
 	   var chunks = Math.ceil(f.size/chunkSize,chunkSize);
 	   var chunk = 0;
 
-	   while (chunk <= chunks) {
+	   while (chunk < chunks) {
 	       var offset = chunk*chunkSize;
 	       $scope.fileLoaded.push(f.slice(offset,offset+chunkSize))
 	       chunk++;

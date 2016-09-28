@@ -5,14 +5,19 @@ import java.util.List;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.StreamingOutput;
 
 import org.apache.commons.io.IOUtils;
 import org.glassfish.jersey.media.multipart.FormDataContentDisposition;
@@ -35,6 +40,7 @@ public class FileHandlerController {
     @Consumes(MediaType.MULTIPART_FORM_DATA)
     public Response uploadFile(
             @FormDataParam("fileName") String fileName,
+            @FormDataParam("filePartName") String filePartName,
             @FormDataParam("userId") InputStream userId,
             @FormDataParam("file") InputStream uploadedInputStream,
             @FormDataParam("file") FormDataContentDisposition fileDetail) {
@@ -47,7 +53,8 @@ public class FileHandlerController {
 		try {
         	file.setFile(IOUtils.toByteArray(uploadedInputStream));
         	file.setFileName(fileName);
-        	fileRepository.Save(file);
+        	file.setFilePartName(filePartName);
+        	fileRepository.SaveOrUpdate(file);
         	return Response.status(200).build();
         } catch (IOException e) {
         	e.printStackTrace();
@@ -59,11 +66,15 @@ public class FileHandlerController {
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@Path("/uploadReport")
-	public Response Cadastrar(Upload upload) {
+	public Response SaveReport(Upload upload) {
 
 		UploadEntity entity = new UploadEntity();
 
 		try {
+			if(upload.getUploadTime() == null) {
+				upload.setUploadTime(0);
+			}
+			
 			entity.setChunkFileNumber(upload.getChunkFileNumber());
 			entity.setDownloadLink(upload.getDownloadLink());
 			entity.setFileName(upload.getFileName());
@@ -95,8 +106,38 @@ public class FileHandlerController {
 			upload.setFileName(uploadEntity.getFileName());
 			upload.setUploadStatus(uploadEntity.getUploadStatus());
 			upload.setUploadTime(uploadEntity.getUploadTime());
+			upload.setUserId(uploadEntity.getUserId());
 			uploads.add(upload);
 		}
 		return uploads;
 	}
+	
+	@GET
+	@Path("/getfile/{fileName}")
+	public Response getFile(@PathParam("fileName") String fileName) {
+ 
+		StreamingOutput fileStream =  new StreamingOutput() 
+        {
+            @Override
+            public void write(java.io.OutputStream output) throws IOException, WebApplicationException 
+            {
+                try
+                {
+                	List<FileEntity> files = fileRepository.FindByName(fileName);
+                	for (FileEntity fileEntity : files) {
+						output.write(fileEntity.getFile());
+					}
+                    output.flush();
+                } 
+                catch (Exception e) 
+                {
+                    throw new WebApplicationException("File Not Found !!");
+                }
+            }
+        };
+        return Response
+                .ok(fileStream, MediaType.APPLICATION_OCTET_STREAM)
+                .header("content-disposition","attachment; filename = " + fileName)
+                .build();
+    }
 }
