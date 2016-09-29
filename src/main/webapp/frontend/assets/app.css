@@ -39,3 +39,11 @@ md-list-item.md-3-line::before, md-list-item.md-3-line > .md-no-style::before {
 .clear-user {
 	margin-top: 2px;
 }
+
+md-dialog-actions {
+	order: 2;
+}
+
+md-dialog-actions button{
+	float: right
+}
