@@ -18,3 +18,10 @@ Angular Material to provide some friendly interface.
 - Create an rest api to upload any kind of file splitting in 1Mb chunks if those file are greater than that.
 - Store all this files and provide a way to serve them merging the splitted chunks in  single archive again possible to download
 - List all stored files providing some details about them, like number of chunks, status of upload, uploader etc.
+
+#Instalation
+- Create a folder on your computer and execute git clone with URL: https://github.com/tsr-thulio/restapi.git or by SSH: git@github.com:tsr-thulio/restapi.git
+- Import Existing Maven Projects from this folder that you cloned
+- Download and configure on your IDE the Apache Tomcat V8.0.37 (http://tomcat.apache.org/download-80.cgi#8.0.37)
+- The DataBase is configured on persistence.xml to use the MySQL DB on this path: 127.0.0.1:3306/restdb
+- Run your project on server (Tomcat) and open the URL: localhost:8080/RestApi
