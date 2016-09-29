@@ -39,7 +39,3 @@ md-list-item.md-3-line::before, md-list-item.md-3-line > .md-no-style::before {
 .clear-user {
 	margin-top: 2px;
 }
-
-.user-input {
-	margin-top: 50px
-}

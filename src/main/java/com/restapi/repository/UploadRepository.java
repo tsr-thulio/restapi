@@ -1,5 +1,6 @@
 package com.restapi.repository;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -38,7 +39,12 @@ public class UploadRepository {
 	
 	@SuppressWarnings("unchecked")
 	public List<UploadEntity> GetUploads(){
-		return this.entityManager.createQuery("SELECT u FROM UploadEntity u").getResultList();
+		try {
+			return this.entityManager.createQuery("SELECT u FROM UploadEntity u").getResultList();
+		} catch (Exception e) {
+			e.printStackTrace();
+			return new ArrayList<UploadEntity>();
+		}
 	}
 	
 	public UploadEntity FindByName(String name) {

@@ -3,10 +3,10 @@ module.controller('appController', function($scope, $templateCache, $http, $mdDi
 	var scope = $scope;
 	var root = $rootScope;
 	$scope.subHeaderText = "Listagem dos arquivos que foram carregados"
-	$scope.listUrl = 'rest/service/listUploads';
-	$scope.uploadUrl = 'rest/service/upload';
-	$scope.uploadReportUrl = 'rest/service/uploadReport';
-	$scope.getFilePrefix = 'rest/service/getfile/';
+	$scope.listUrl = 'rest/filehandler/listUploads';
+	$scope.uploadUrl = 'rest/filehandler/upload';
+	$scope.uploadReportUrl = 'rest/filehandler/uploadReport';
+	$scope.getFilePrefix = 'rest/filehandler/getfile/';
 	
 	$scope.listUploads = function() {
 		$http({
