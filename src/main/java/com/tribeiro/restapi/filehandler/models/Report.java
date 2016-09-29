@@ -1,17 +1,18 @@
-package com.restapi.filehandler.http;
+package com.tribeiro.restapi.filehandler.models;
 
 import javax.xml.bind.annotation.XmlRootElement;
 
+import io.swagger.annotations.ApiModel;
+
 @XmlRootElement
-public class Upload {
+@ApiModel(description = "Report class to create upload details", value = "ReportModel")
+public class Report {
 	
 	String fileName;
 	Integer chunkFileNumber;
 	Integer uploadTime;
-	String downloadLink;
-	Status uploadStatus;
-	String userId;
-	
+	Boolean finishedUpload;
+
 	public String getFileName() {
 		return fileName;
 	}
@@ -30,23 +31,11 @@ public class Upload {
 	public void setUploadTime(Integer uploadTime) {
 		this.uploadTime = uploadTime;
 	}
-	public String getDownloadLink() {
-		return downloadLink;
+	public Boolean getFinishedUpload() {
+		return finishedUpload;
 	}
-	public void setDownloadLink(String downloadLink) {
-		this.downloadLink = downloadLink;
-	}
-	public Status getUploadStatus() {
-		return uploadStatus;
-	}
-	public void setUploadStatus(Status uploadStatus) {
-		this.uploadStatus = uploadStatus;
-	}
-	public String getUserId() {
-		return userId;
-	}
-	public void setUserId(String userId) {
-		this.userId = userId;
+	public void setFinishedUpload(Boolean finishedUpload) {
+		this.finishedUpload = finishedUpload;
 	}
 	
 }

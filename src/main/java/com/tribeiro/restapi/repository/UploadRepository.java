@@ -1,4 +1,4 @@
-package com.restapi.repository;
+package com.tribeiro.restapi.repository;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -7,8 +7,8 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 
-import com.restapi.filehandler.http.Status;
-import com.restapi.repository.entity.UploadEntity;
+import com.tribeiro.restapi.filehandler.models.Status;
+import com.tribeiro.restapi.repository.entity.UploadEntity;
 
 public class UploadRepository {
 	

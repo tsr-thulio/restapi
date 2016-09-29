@@ -12,7 +12,7 @@
         <param-name>jersey.config.server.provider.packages</param-name>
         <param-value>
 	        io.swagger.jaxrs.listing,
-	        com.restapi.filehandler.controller
+	        com.tribeiro.restapi.filehandler.api
         </param-value>
     </init-param>
     

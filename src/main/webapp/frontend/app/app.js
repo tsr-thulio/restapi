@@ -36,7 +36,6 @@ module.controller('appController', function($scope, $templateCache, $http, $mdDi
 			var filesUploaded = 0;
 			$scope.recursiveUpload(0);
 			$scope.uploadStart = new Date().getTime();
-			$scope.uploadReport('PROCESSING');
 		} else {
 			var popup = $mdDialog.alert()
 		      .title("Oops...")
@@ -55,10 +54,8 @@ module.controller('appController', function($scope, $templateCache, $http, $mdDi
 		var upload = {
 			chunkFileNumber: $scope.fileLoaded.length,
 			fileName: $scope.fileLoadedName,
-			downloadLink: $scope.getFilePrefix + $scope.fileLoadedName,
-			uploadStatus: status,
 			uploadTime: $scope.timeToUpload,
-			userId: $scope.userName
+			finishedUpload: status
 		}
 		$http.post($scope.uploadReportUrl, upload)
 		.success(function(data) {
@@ -98,12 +95,13 @@ module.controller('appController', function($scope, $templateCache, $http, $mdDi
 			headers: {'Content-Type': undefined}
 		}).success(function(data) {
 			if(index < $scope.fileLoaded.length - 1) {
+				$scope.uploadReport(false);
 				$scope.recursiveUpload(index + 1)
 			} else {
-				root.finishedUpload = {status: 'DONE'};
+				root.finishedUpload = {status: true};
 			}
 		}).error(function() {
-			root.finishedUpload = {status: 'FAILED'};
+			root.finishedUpload = {status: true};
 		});
 	}
 	

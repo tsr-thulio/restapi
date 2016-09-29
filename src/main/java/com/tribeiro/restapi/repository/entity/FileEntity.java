@@ -1,4 +1,4 @@
-package com.restapi.repository.entity;
+package com.tribeiro.restapi.repository.entity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -7,7 +7,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-import com.restapi.filehandler.http.Status;
+import com.tribeiro.restapi.filehandler.models.Status;
 
 @Entity
 @Table(name="tb_file")
@@ -26,6 +26,17 @@ public class FileEntity {
 	
 	@Column(name="file", columnDefinition = "LONGBLOB")
 	byte[] file;
+	
+	@Column(name="userId")
+	String userId;
+
+	public String getUserId() {
+		return userId;
+	}
+
+	public void setUserId(String userId) {
+		this.userId = userId;
+	}
 
 	public Long getId() {
 		return id;

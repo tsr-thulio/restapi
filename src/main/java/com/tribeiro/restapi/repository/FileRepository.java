@@ -1,4 +1,4 @@
-package com.restapi.repository;
+package com.tribeiro.restapi.repository;
 
 import java.util.List;
 
@@ -6,8 +6,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 
-import com.restapi.repository.entity.FileEntity;
-import com.restapi.repository.entity.UploadEntity;
+import com.tribeiro.restapi.repository.entity.FileEntity;
 
 public class FileRepository {
 	

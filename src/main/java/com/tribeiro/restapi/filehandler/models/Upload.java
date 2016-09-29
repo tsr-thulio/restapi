@@ -1,47 +1,20 @@
-package com.restapi.repository.entity;
+package com.tribeiro.restapi.filehandler.models;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.xml.bind.annotation.XmlRootElement;
 
-import com.restapi.filehandler.http.Status;
+import io.swagger.annotations.ApiModel;
 
-@Entity
-@Table(name="tb_upload")
-public class UploadEntity {
+@XmlRootElement
+@ApiModel(description = "Report class for list detail of uploaded files", value = "UploadModel")
+public class Upload {
 	
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name="id")
-	Long id;
-	
-	@Column(name="filename")
 	String fileName;
-	
-	@Column(name="chunkFileNumber")
 	Integer chunkFileNumber;
-	
-	@Column(name="uploadTime")
 	Integer uploadTime;
-	
-	@Column(name="downloadLink")
 	String downloadLink;
-	
-	@Column(name="uploadStatus")
 	Status uploadStatus;
-	
-	@Column(name="userId")
 	String userId;
 	
-	public Long getId() {
-		return id;
-	}
-	public void setId(Long id) {
-		this.id = id;
-	}
 	public String getFileName() {
 		return fileName;
 	}

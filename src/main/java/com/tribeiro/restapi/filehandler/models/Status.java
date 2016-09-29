@@ -1,4 +1,4 @@
-package com.restapi.filehandler.http;
+package com.tribeiro.restapi.filehandler.models;
 
 public enum Status {
 	PROCESSING, FAILED, DONE
