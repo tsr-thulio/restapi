@@ -121,7 +121,10 @@ public class FileHandlerApi {
 			entity.setDownloadLink("rest/filehandler/getfile/" + report.getFileName());
 			entity.setFileName(report.getFileName());
 			entity.setUploadTime(report.getUploadTime());
-			entity.setUserId(fileEntityList.get(0).getUserId());
+			entity.setUserId(report.getUserId());
+			if(fileEntityList.size() > 0) {
+				entity.setUserId(fileEntityList.get(0).getUserId());
+			}
 			Status reportStatus = FileHandlerService.defineStatus(report, fileEntityList);
 			entity.setUploadStatus(reportStatus);
 			uploadRepository.SaveOrUpdate(entity, reportStatus);

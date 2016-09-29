@@ -55,7 +55,8 @@ module.controller('appController', function($scope, $templateCache, $http, $mdDi
 			chunkFileNumber: $scope.fileLoaded.length,
 			fileName: $scope.fileLoadedName,
 			uploadTime: $scope.timeToUpload,
-			finishedUpload: status
+			finishedUpload: status,
+			userId: $scope.userName
 		}
 		$http.post($scope.uploadReportUrl, upload)
 		.success(function(data) {

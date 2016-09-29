@@ -12,9 +12,16 @@ public class Report {
 	Integer chunkFileNumber;
 	Integer uploadTime;
 	Boolean finishedUpload;
+	String userId;
 
 	public String getFileName() {
 		return fileName;
+	}
+	public String getUserId() {
+		return userId;
+	}
+	public void setUserId(String userId) {
+		this.userId = userId;
 	}
 	public void setFileName(String fileName) {
 		this.fileName = fileName;
